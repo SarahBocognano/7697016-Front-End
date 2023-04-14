@@ -78,4 +78,48 @@ export async function afficherGraphiqueAvis(){
   );
 
 }
-  
+
+// Récupération des pièces depuis le local storage
+const piecesJSON = window.localStorage.getItem("pieces");
+
+const pieces = JSON.parse(piecesJSON);
+// Calcul du nombre de commentaires
+let nbCommentairesDispo = 0;
+let nbCommentairesNonDispo = 0;
+
+for (let i=0; i < avis.length; i++) {
+  const piece = pieces.find(p => p.id === avis[i].pieceId);
+
+  if(piece){
+    if (piece.disponibilite) {
+      nbCommentairesDispo++;
+    } else {
+      nbCommentairesNonDispo++;
+    }
+  }
+
+  // Légende qui s'affichera sur la gauche à côté de la barre horizontale
+  const labesDispo = ['Disponibles', 'Non Disponibles'];
+
+  // Données et personnalisation du graphique
+  const dataDispo = {
+    labels: labesDispo,
+    datasets: [{
+      label: 'Nombre de commentaires',
+      data: [nbCommentairesDispo, nbCommentairesNonDispo],
+      backgroundColor: "rgba(0, 230, 255, 1)", // turquoise
+    }],
+  };
+
+  // Objet de configuration final
+  const configDispo = {
+    type: "bar",
+    data: dataDispo,
+  };
+
+  // Rendu du graphique dans l'élément canvas
+  const graphiqueAvis = new Chart(
+    document.querySelector("#graphique-dispo"),
+    configDispo,
+  );
+}
