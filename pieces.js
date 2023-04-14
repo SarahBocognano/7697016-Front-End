@@ -1,4 +1,4 @@
-import { ajoutListenersAvis } from "./avis";
+import { afficherGraphiqueAvis, ajoutListenersAvis } from "./avis";
 import { ajoutListenerEnvoyerAvis, afficherAvis } from "./avis";
 
 let pieces = window.localStorage.getItem("pieces");
@@ -173,3 +173,5 @@ const bouttonMettreAJour = document.querySelector(".btn-maj");
 bouttonMettreAJour.addEventListener('click', function (){
     window.localStorage.removeItem("pieces");
 })
+
+await afficherGraphiqueAvis();
